@@ -1,7 +1,7 @@
 #七並べ
 import pyxel as px
 import random as rmd
-from input_detector import InputDetector as Input
+#from input_detector import InputDetector as Input
 
 class App:
     def __init__(self):
@@ -55,15 +55,15 @@ class App:
         #px.playm(0, loop = True)
         px.run(self.update, self.draw) # アプリケーションの実行
         
-    def update(self):
-        if Input.is_pressed(Input.UP):
-            print("pressed UP")
-        if Input.is_pressed(Input.DOWN):
-            print("pressed DOWN")
-        if Input.is_released(Input.LEFT):
-            print("released LEFT")
-        if Input.is_released(Input.RIGHT):
-            print("released RIGHT")
+    # def update(self):
+    #     if Input.is_pressed(Input.UP):
+    #         print("pressed UP")
+    #     if Input.is_pressed(Input.DOWN):
+    #         print("pressed DOWN")
+    #     if Input.is_released(Input.LEFT):
+    #         print("released LEFT")
+    #     if Input.is_released(Input.RIGHT):
+    #         print("released RIGHT")
         
     def draw(self):
         px.cls(3)
