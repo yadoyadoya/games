@@ -3,13 +3,16 @@ import pyxel as px
 import random as rmd
 #from input_detector import InputDetector as Input
 
+BUTTON_X = 80 #ボタンのx軸
+BUTTON_Y = 120 #ボタンのy軸
+
 class App:
     def __init__(self):
         px.init(240, 160)
         px.mouse(True)
         px.load("trumpgame_resource.pyxres")
         self.init_cards()
-        
+        self.button = False
     def init_cards(self):
         
         self.usednumber_flags = [0] * 52
@@ -55,15 +58,21 @@ class App:
         #px.playm(0, loop = True)
         px.run(self.update, self.draw) # アプリケーションの実行
         
-    # def update(self):
-    #     if Input.is_pressed(Input.UP):
-    #         print("pressed UP")
-    #     if Input.is_pressed(Input.DOWN):
-    #         print("pressed DOWN")
-    #     if Input.is_released(Input.LEFT):
-    #         print("released LEFT")
-    #     if Input.is_released(Input.RIGHT):
-    #         print("released RIGHT")
+    def update(self):
+        # if Input.is_pressed(Input.UP):
+        #     print("pressed UP")
+        # if Input.is_pressed(Input.DOWN):
+        #     print("pressed DOWN")
+        # if Input.is_released(Input.LEFT):
+        #     print("released LEFT")
+        # if Input.is_released(Input.RIGHT):
+        #     print("released RIGHT")
+        if px.btnp(px.MOUSE_BUTTON_LEFT): #クリック
+            if BUTTON_X -7 < px.mouse_x < BUTTON_X + 7 and BUTTON_Y -15 < px.mouse_y < BUTTON_Y + 15: #ボタンの枠内
+                self.button = True
+
+        if px.btnr(px.MOUSE_BUTTON_LEFT): #クリックが離されたとき
+            self.button = False
         
     def draw(self):
         px.cls(3)
@@ -72,9 +81,27 @@ class App:
             #px.blt(34,145,0,0,0,10,15)
             px.blt(34+i*16,145,0,self.nums[i],self.suits[i],10,15)
         
-        px.text(20,50,"pressed UP",1)
-        px.text(40,50,"pressed DOWN",1)
-        px.text(60,50,"released LEFT",1)
-        px.text(80,50,"released RIGHT",1)
+        if self.button:
+            px.blt(BUTTON_X,BUTTON_Y,1,0,49,15,7)
+        else:
+            px.blt(BUTTON_X,BUTTON_Y,1,0,41,15,7)
+        
+        # px.text(20,50,"pressed UP",1)
+        # px.text(40,50,"pressed DOWN",1)
+        # px.text(60,50,"released LEFT",1)
+        # px.text(80,50,"released RIGHT",1)
+        self.test_text(6, 10)
+
+    def test_text(self, x, y):
+        px.text(x, y, "text(x,y,s,col)", 7)
+        x += 4
+        y += 8
+        s = (
+            f"Elapsed frame count is {px.frame_count}\n"
+            f"Current mouse position is ({px.mouse_x},{px.mouse_y})"
+        )
+        px.text(x + 1, y, s, 1)
+        px.text(x, y, s, 9)
+
 
 App().run()
