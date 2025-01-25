@@ -1,8 +1,8 @@
 #七並べ
 import pyxel as px
 import random as rmd
-import platform as pf
 #from input_detector import InputDetector as Input
+from device_checker import DeviceChecker as Ckr
 
 BUTTON_X = 80 #ボタンのx軸
 BUTTON_Y = 120 #ボタンのy軸
@@ -16,9 +16,8 @@ class App:
         self.button = False
         
         # PC(非タップ端末)からの実行時のみマウスカーソルを表示する
-        os_name = pf.system()
-        is_pc = os_name == "Windows" or os_name == "Darwin" or os_name == "Linux"
-        px.mouse(is_pc)
+        self.deviceChecker = Ckr()
+        px.mouse(self.deviceChecker.is_pc())
         
     def init_cards(self):
         
