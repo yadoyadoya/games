@@ -1,6 +1,7 @@
 #七並べ
 import pyxel as px
 import random as rmd
+import platform as pf
 #from input_detector import InputDetector as Input
 
 BUTTON_X = 80 #ボタンのx軸
@@ -9,10 +10,16 @@ BUTTON_Y = 120 #ボタンのy軸
 class App:
     def __init__(self):
         px.init(240, 160)
-        px.mouse(True)
+        #px.mouse(True)
         px.load("trumpgame_resource.pyxres")
         self.init_cards()
         self.button = False
+        
+        # PC(非タップ端末)からの実行時のみマウスカーソルを表示する
+        os_name = pf.system()
+        is_pc = os_name == "Windows" or os_name == "Darwin" or os_name == "Linux"
+        px.mouse(is_pc)
+        
     def init_cards(self):
         
         self.usednumber_flags = [0] * 52
@@ -68,23 +75,32 @@ class App:
         # if Input.is_released(Input.RIGHT):
         #     print("released RIGHT")
         if px.btnp(px.MOUSE_BUTTON_LEFT): #クリック
-            if BUTTON_X -7 < px.mouse_x < BUTTON_X + 7 and BUTTON_Y -15 < px.mouse_y < BUTTON_Y + 15: #ボタンの枠内
+            if BUTTON_X < px.mouse_x < BUTTON_X + 16 and BUTTON_Y < px.mouse_y < BUTTON_Y + 7: #ボタンの枠内
                 self.button = True
 
         if px.btnr(px.MOUSE_BUTTON_LEFT): #クリックが離されたとき
             self.button = False
         
+        if self.button:
+            self.init_cards()
+        
     def draw(self):
-        px.cls(3)
+        px.cls(0)
+        
+        
+        px.bltm(0, 0, 0, 0, 0, 240, 160)
         ### カードの描画
         for i in range(5):
             #px.blt(34,145,0,0,0,10,15)
-            px.blt(34+i*16,145,0,self.nums[i],self.suits[i],10,15)
+            px.blt(34+i*16,145,0,self.nums[i],self.suits[i],10,15,0)
         
+        px.blt(34 ,90 ,1 ,0 ,0 ,16 ,24 ,0)
         if self.button:
-            px.blt(BUTTON_X,BUTTON_Y,1,0,49,15,7)
+            px.blt(BUTTON_X,BUTTON_Y,1,0,49,16,7,0)
         else:
-            px.blt(BUTTON_X,BUTTON_Y,1,0,41,15,7)
+            px.blt(BUTTON_X,BUTTON_Y,1,0,41,16,7,0)
+        
+        
         
         # px.text(20,50,"pressed UP",1)
         # px.text(40,50,"pressed DOWN",1)
