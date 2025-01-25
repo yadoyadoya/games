@@ -1,9 +1,10 @@
-import util.device_checker as dchk
+#import util.device_checker as dchk
 
 import pyxel as px
 import random as rmd
 #from input_detector import InputDetector as Input
 #from device_checker import DeviceChecker as Ckr
+from util.device_checker import DeviceChecker as dchk
 
 BUTTON_X = 80 #ボタンのx軸
 BUTTON_Y = 120 #ボタンのy軸
@@ -17,7 +18,7 @@ class App:
         self.button = False
         
         # PC(非タップ端末)からの実行時のみマウスカーソルを表示する
-        self.deviceChecker = dchk.DeviceChecker()
+        self.deviceChecker = dchk()
         px.mouse(self.deviceChecker.is_pc())
         
     def init_cards(self):
